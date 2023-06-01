@@ -11,6 +11,9 @@ app.use(express.json());
 const personajesDBZ = require("./rutas/personajes");
 app.use(personajesDBZ)
 
+const equipos = require("./rutas/equipos")
+app.use(equipos)
+
 if (!module.parent) {   // si no es llamado por otro modulo, es decir, si es el modulo principal -> levantamos el servidor
     const port = process.env.PORT || 3000;   // en produccion se usa el puerto de la variable de entorno PORT
     app.locals.fechaInicio = new Date();
