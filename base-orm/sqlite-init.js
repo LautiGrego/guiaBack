@@ -38,6 +38,34 @@ async function CrearBaseSinoExiste() {
         );
     };
 
+    existe = false;
+    res = null;
+    res = await db.get(
+        `SELECT count(*) as contar FROM sqlite_schema WHERE type = 'table' and name= 'comidas' `,
+    []
+    );
+    if (res.contar > 0) existe = true;
+    if (!existe) {
+        await db.run(
+            `CREATE table comidas ( IdComida INTEGER PRIMARY KEY AUTOINCREMENT, Nombre text NOT NULL UNIQUE, Peso INTEGER NOT NULL, FechaCreacion text, Activo Boolean)`
+        );
+        console.log("tabla de comidas creada!");
+        await db.run(
+            `insert into comidas values (1, 'Pizza', 500, '2023-05-30', 1),
+            (2, 'Hamburguesa', 300, '2023-05-29', 1),
+            (3, 'Ensalada', 200, '2023-05-30', 1),
+            (4, 'Sushi', 400, '2023-05-28', 1),
+            (5, 'Spaghetti', 350, '2023-05-31', 1),
+            (6, 'Tacos', 250, '2023-05-30', 1),
+            (7, 'Sopa', 150, '2023-05-29', 1),
+            (8, 'Sandwich', 200, '2023-05-31', 1),
+            (9, 'Pollo asado', 600, '2023-05-30', 1),
+            (10, 'Sándwich de atún', 250, '2023-05-31', 1)`
+        );
+    };
+
+
+
     db.close()
 }
 
