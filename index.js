@@ -17,6 +17,9 @@ app.use(equipos)
 const comidas = require("./rutas/comidas");
 app.use(comidas)
 
+const vehiculos = require("./rutas/vehiculos");
+app.use(vehiculos)
+
 if (!module.parent) {   // si no es llamado por otro modulo, es decir, si es el modulo principal -> levantamos el servidor
     const port = process.env.PORT || 3000;   // en produccion se usa el puerto de la variable de entorno PORT
     app.locals.fechaInicio = new Date();
