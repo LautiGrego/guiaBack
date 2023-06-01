@@ -58,6 +58,7 @@ router.post("/api/personajesDBZ", async (req, res) => {
 
   router.delete("/api/personajesDBZ/:id", async (req, res) => {
     let bajaFisica = false;
+  
     if (bajaFisica) {
       // baja fisica
       let filasBorradas = await db.personajesDBZ.destroy({
@@ -67,6 +68,7 @@ router.post("/api/personajesDBZ", async (req, res) => {
       else res.sendStatus(404);
     } else {
       // baja logica
+      try {
         let data = await db.sequelize.query(
           "UPDATE personajesDBZs SET Activo = case when Activo = 1 then 0 else 1 end WHERE IdPersonaje = :IdPersonaje",
           {
@@ -74,9 +76,18 @@ router.post("/api/personajesDBZ", async (req, res) => {
           }
         );
         res.sendStatus(200);
-      } 
+      } catch (err) {
+        if (err instanceof ValidationError) {
+          // si son errores de validacion, los devolvemos
+          const messages = err.errors.map((x) => x.message);
+          res.status(400).json(messages);
+        } else {
+          // si son errores desconocidos, los dejamos que los controle el middleware de errores
+          throw err;
+        }
+      }
     }
-  );
+  });
   
   
 module.exports = router
