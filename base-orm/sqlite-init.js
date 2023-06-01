@@ -64,7 +64,22 @@ async function CrearBaseSinoExiste() {
         );
     };
 
-
+    existe = false;
+    res = null;
+    res = await db.get(
+        `SELECT count(*) as contar FROM sqlite_schema WHERE type = 'table' and name= 'vehiculos' `,
+    []
+    );
+    if (res.contar > 0) existe = true;
+    if (!existe) {
+        await db.run(
+            `CREATE table vehiculos ( IdVehiculo INTEGER PRIMARY KEY AUTOINCREMENT, Modelo text NOT NULL UNIQUE, Cantidad INTEGER NOT NULL, FechaLanzamiento text, Activo Boolean)`
+        );
+        console.log("tabla de vehiculos creada!");
+        await db.run(
+            `insert into vehiculos values (1,'Cruze',3000,'2015-12-12', 1), (2,'Onix',2500, '2012-09-09', 1), (3,'s10',6700, '2017-08-08', 1), (4,'Silverado',2200,'2009-10-10', 1), (5,'Camaro',5674,'1981-11-11', 1), (6,'Ranger',4567,'2014-07-02', 1), (7,'Mustang',7777,'1986-05-08', 1), (8,'Fiesta',64523,'2003-02-09', 1), (9,'Focus',7890,'2010-03-10', 1), (10,'Ka',67777,'2016-05-12', 1)`
+        );
+    };
 
     db.close()
 }

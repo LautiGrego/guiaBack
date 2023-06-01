@@ -40,14 +40,13 @@ const personajesDBZ = sequelize.define(
             type: DataTypes.BOOLEAN,
             allowNull: false,
             validate: {
-              notNull: {
+            notNull: {
                 args: true,
                 msg: "Ingrese activo obligatoriamente",
 
-              }
+                }
             }
-          },
-      
+        },
     },
 
     { hooks: {
@@ -179,9 +178,73 @@ const comidas = sequelize.define(
 
 );
 
+const vehiculos = sequelize.define(
+    "vehiculos",
+    { IdVehiculo: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+            allowNull: false,
+        },
+        Modelo: {
+            type: DataTypes.STRING(30),
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    args: true,
+                    msg: "Ingrese el Modelo obligatoriamente",
+
+                },
+            },
+        },
+
+        Cantidad: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    args: true,
+                    msg: 'La cantidad es requerido',
+                },
+            },
+        },
+
+        FechaLanzamiento: {
+            type: DataTypes.DATEONLY
+        },
+
+        Activo: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            validate: {
+            notNull: {
+                args: true,
+                msg: "Ingrese activo obligatoriamente",
+
+                }
+            }
+        },
+
+    },
+
+    { hooks: {
+            beforeValidate: function (vehiculos, options) {
+            if (typeof vehiculos.Modelo === "string") {
+                vehiculos.Modelo = vehiculos.Modelo.toUpperCase().trim();
+            }
+            },
+        },
+        timestamps: false,
+    },
+
+);
+
+
 module.exports = {
     sequelize,
     personajesDBZ,
     equipos,
+    comidas,
+    vehiculos
 };
 
