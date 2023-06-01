@@ -47,6 +47,17 @@ const personajesDBZ = sequelize.define(
                 }
             }
         },
+
+        ComidaFavorita: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    args: true,
+                    msg: "la comida favorita es requerida"
+                }
+            }
+        }
     },
 
     { hooks: {

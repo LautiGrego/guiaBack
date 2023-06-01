@@ -7,6 +7,7 @@ const personajeAlta = {
     NivelDePoder: 11110,
     fechaNacimiento: "2022-11-11",
     Activo: true,
+    ComidaFavorita: 3
   }
 
 const personajeM = {
@@ -15,6 +16,7 @@ const personajeM = {
     NivelDePoder: 11110,
     fechaNacimiento: "2022-11-11",
     Activo: true,
+    ComidaFavorita: 8
   }
 
 describe ("GET /api/personajesDBZ", function (){
@@ -32,6 +34,7 @@ describe ("GET /api/personajesDBZ", function (){
                 NivelDePoder: expect.any(Number),
                 fechaNacimiento: expect.any(String),
                 Activo: expect.any(Boolean),
+                ComidaFavorita: expect.any(Number)
                 }),
             ])
         )    
@@ -63,6 +66,7 @@ describe("GET /api/personajesDBZ/:id", function () {
           NivelDePoder: expect.any(Number),
           fechaNacimiento: expect.any(String),
           Activo: expect.any(Boolean),
+          ComidaFavorita: expect.any(Number)
         })
       );
     });

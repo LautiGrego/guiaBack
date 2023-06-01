@@ -5,14 +5,14 @@ const { Op, ValidationError } = require("sequelize");
 
 router.get("/api/personajesDBZ", async function (req, res, next) {
   let data = await db.personajesDBZ.findAll ({
-      attributes: ["IdPersonaje","Nombre","NivelDePoder","fechaNacimiento", "Activo"],
+      attributes: ["IdPersonaje","Nombre","NivelDePoder","fechaNacimiento", "Activo", "ComidaFavorita"],
   });
   res.status(200).json(data);
 })
 
 router.get("/api/personajesDBZ/:id", async function (req, res, next) {
     let data = await db.personajesDBZ.findAll({
-        attributes: ["IdPersonaje","Nombre","NivelDePoder","fechaNacimiento", "Activo"],
+        attributes: ["IdPersonaje","Nombre","NivelDePoder","fechaNacimiento", "Activo", "ComidaFavorita"],
         where: {IdPersonaje: req.params.id},
     });
     if (data.length > 0 ) res.status(200).json(data[0]);
@@ -27,6 +27,7 @@ router.post("/api/personajesDBZ", async (req, res) => {
         NivelDePoder: req.body.NivelDePoder,
         fechaNacimiento: req.body.fechaNacimiento,
         Activo: req.body.Activo,
+        ComidaFavorita: req.body.ComidaFavorita
       });
       res.status(200).json(data.dataValues); // devolvemos el registro agregado!
   });
@@ -40,6 +41,7 @@ router.post("/api/personajesDBZ", async (req, res) => {
           "NivelDePoder",
           "fechaNacimiento",
           "Activo",
+          "ComidaFavorita"
         ],
         where: { IdPersonaje: req.params.id },
       });
@@ -51,6 +53,7 @@ router.post("/api/personajesDBZ", async (req, res) => {
       item.NivelDePoder = req.body.NivelDePoder;
       item.fechaNacimiento = req.body.fechaNacimiento;
       item.Activo = req.body.Activo;
+      item.ComidaFavorita = req.body.ComidaFavorita;
       await item.save();
       res.sendStatus(200);
     
