@@ -57,6 +57,7 @@ router.post("/api/equipos", async (req, res) => {
 
   router.delete("/api/equipos/:id", async (req, res) => {
     let bajaFisica = false;
+  
     if (bajaFisica) {
       // baja fisica
       let filasBorradas = await db.equipos.destroy({
@@ -66,6 +67,7 @@ router.post("/api/equipos", async (req, res) => {
       else res.sendStatus(404);
     } else {
       // baja logica
+      try {
         let data = await db.sequelize.query(
           "UPDATE equipos SET Activo = case when Activo = 1 then 0 else 1 end WHERE IdEquipo = :IdEquipo",
           {
@@ -73,9 +75,18 @@ router.post("/api/equipos", async (req, res) => {
           }
         );
         res.sendStatus(200);
-      } 
+      } catch (err) {
+        if (err instanceof ValidationError) {
+          // si son errores de validacion, los devolvemos
+          const messages = err.errors.map((x) => x.message);
+          res.status(400).json(messages);
+        } else {
+          // si son errores desconocidos, los dejamos que los controle el middleware de errores
+          throw err;
+        }
+      }
     }
-  );
+  });
   
   
 module.exports = router
